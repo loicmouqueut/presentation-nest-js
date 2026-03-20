@@ -4,7 +4,7 @@ import { IsEnum, IsPositive, Length, IsNotEmpty } from "class-validator";
 export class CardDto {
 
   @IsNotEmpty()
-  id: string;
+  id: number;
 
   @IsNotEmpty()
   @Length(3, 10)

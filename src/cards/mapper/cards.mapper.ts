@@ -17,7 +17,7 @@ export function fromCreateCardDtoToCardEntity(card: CreateCardDto): Card {
 export function fromCardEntityToCardDto(card: Card): CardDto {
 
     return {
-        id: card.id ?? "",
+        id: card.id ?? 0,
         name: card.name,
         description: card.description,
         cost: card.cost,
