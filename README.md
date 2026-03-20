@@ -116,6 +116,9 @@ nest g module cards
 nest g service cards
 nest g controller cards
 
+### 3/ Ajout de contrainte de validation des class
+
+npm install class-validator class-transformer
 
 ### 3/ Branchement de la bdd postgres
 ### 4/ Ajout d'un module User
