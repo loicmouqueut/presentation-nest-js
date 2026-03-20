@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/users/entities/user.entity";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum Rarity {
   COMMON = 'common',
@@ -27,4 +28,7 @@ export class Card {
     enum: Rarity,
   })
   rarity: Rarity;
+
+  @ManyToMany(() => User, (user) => user.cards)
+  users?: User[];
 }
