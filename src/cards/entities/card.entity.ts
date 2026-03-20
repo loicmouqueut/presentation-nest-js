@@ -6,7 +6,7 @@ export enum Rarity {
 }
 
 export class Card {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   cost: number;

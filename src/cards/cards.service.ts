@@ -1,5 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Card, Rarity } from './entities/card.entity';
+import {
+  fromCardEntityToCardDto,
+  fromCreateCardDtoToCardEntity,
+} from './mapper/cards.mapper';
+import { CardDto, CreateCardDto } from './dtos/card.dto';
 
 @Injectable()
 export class CardsService {
@@ -28,22 +33,23 @@ export class CardsService {
         }
     ];
 
-    findAll(): Promise<Card[]> {
-        return Promise.resolve(this.cards);
+    findAll(): Promise<CardDto[]> {
+        return Promise.resolve(this.cards.map(card => fromCardEntityToCardDto(card)));
     }
 
-    findOne(id: string): Promise<Card> {
+    findOne(id: string): Promise<CardDto> {
         const card = this.cards.find(c => c.id === id);
 
         if (!card) {
             throw new NotFoundException(`Card with id ${id} not found`);
         }
-        return Promise.resolve(card);
+        return Promise.resolve(fromCardEntityToCardDto(card));
     }
 
-    create(card: Card): Promise<Card> {
-        this.cards.push(card);
-        return Promise.resolve(card);
+    create(card: CreateCardDto): Promise<CardDto> {
+        const newCard = fromCreateCardDtoToCardEntity(card);
+        this.cards.push(newCard);
+        return Promise.resolve(fromCardEntityToCardDto(newCard));
     }
 
 }

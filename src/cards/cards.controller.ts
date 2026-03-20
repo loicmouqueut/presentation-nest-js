@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CardsService } from './cards.service';
-import { Card } from './entities/card.entity';
+import { CardDto, CreateCardDto } from './dtos/card.dto';
 
 @Controller('cards')
 export class CardsController {
@@ -8,17 +8,18 @@ export class CardsController {
     constructor(private readonly cardsService: CardsService) { }
 
     @Get()
-    findAll(): Promise<Card[]> {
+    findAll(): Promise<CardDto[]> {
         return this.cardsService.findAll();
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string): Promise<Card> {
+    findOne(@Param('id') id: string): Promise<CardDto> {
         return this.cardsService.findOne(id);
     }
 
     @Post()
-    create(@Body() newCard: Card) {
+    //@UsePipes(ValidationPipe)
+    create(@Body() newCard: CreateCardDto): Promise<CardDto> {
         return this.cardsService.create(newCard);
     }
 
