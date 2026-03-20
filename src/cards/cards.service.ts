@@ -1,44 +1,24 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Card, Rarity } from './entities/card.entity';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   fromCardEntityToCardDto,
   fromCreateCardDtoToCardEntity,
 } from './mapper/cards.mapper';
 import { CardDto, CreateCardDto } from './dtos/card.dto';
+import { CARD_REPO } from './cards.provider';
+import { Repository } from 'typeorm';
+import { Card } from './entities/card.entity';
 
 @Injectable()
 export class CardsService {
+      constructor(@Inject(CARD_REPO) private cardRepo: Repository<Card>) {}
 
-    private cards: Card[] = [
-        {
-            id: '1',
-            name: 'Chevalier de l\'Aube',
-            description: 'Un chevalier courageux et loyal.',
-            cost: 5,
-            rarity: Rarity.COMMON
-        },
-        {
-            id: '2',
-            name: 'Dragon de Feu',
-            description: 'Un dragon puissant et redoutable.',
-            cost: 8,
-            rarity: Rarity.MYTHIC
-        },
-        {
-            id: '3',
-            name: 'Sorcier des Ténèbres',
-            description: 'Un sorcier mystérieux et puissant, maîtrisant les forces obscures.',
-            cost: 7,
-            rarity: Rarity.LEGENDARY
-        }
-    ];
-
-    findAll(): Promise<CardDto[]> {
-        return Promise.resolve(this.cards.map(card => fromCardEntityToCardDto(card)));
+    async findAll(): Promise<CardDto[]> {
+        const cards = await this.cardRepo.find();
+        return cards.map((card) => fromCardEntityToCardDto(card));
     }
 
-    findOne(id: string): Promise<CardDto> {
-        const card = this.cards.find(c => c.id === id);
+    async findOne(id: number): Promise<CardDto> {
+        const card = await this.cardRepo.findOneBy({ id });
 
         if (!card) {
             throw new NotFoundException(`Card with id ${id} not found`);
@@ -46,10 +26,10 @@ export class CardsService {
         return Promise.resolve(fromCardEntityToCardDto(card));
     }
 
-    create(card: CreateCardDto): Promise<CardDto> {
+    async create(card: CreateCardDto): Promise<CardDto> {
         const newCard = fromCreateCardDtoToCardEntity(card);
-        this.cards.push(newCard);
-        return Promise.resolve(fromCardEntityToCardDto(newCard));
+        const savedCard = await this.cardRepo.save(newCard);
+        return Promise.resolve(fromCardEntityToCardDto(savedCard));
     }
 
 }

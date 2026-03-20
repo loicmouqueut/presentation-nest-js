@@ -122,8 +122,11 @@ npm install class-validator class-transformer
 
 ### 4/ Ajout d'un logger dans l'application
 
+### 5/ Branchement de la bdd postgres
+
+npm install --save typeorm pg
+nest g module database
 
 
-### 3/ Branchement de la bdd postgres
-### 4/ Ajout d'un module User
-### 5/ Ajout de l'authentification
+### 6/ Ajout d'un module User
+### 7/ Ajout de l'authentification

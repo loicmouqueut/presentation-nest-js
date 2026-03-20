@@ -13,7 +13,7 @@ export class CardsController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string): Promise<CardDto> {
+    findOne(@Param('id') id: number): Promise<CardDto> {
         return this.cardsService.findOne(id);
     }
 
