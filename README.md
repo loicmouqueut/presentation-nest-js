@@ -120,6 +120,10 @@ nest g controller cards
 
 npm install class-validator class-transformer
 
+### 4/ Ajout d'un logger dans l'application
+
+
+
 ### 3/ Branchement de la bdd postgres
 ### 4/ Ajout d'un module User
 ### 5/ Ajout de l'authentification
