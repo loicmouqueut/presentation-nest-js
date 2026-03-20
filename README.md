@@ -129,4 +129,11 @@ nest g module database
 
 
 ### 6/ Ajout d'un module User
+
+
+nest g module users
+nest g service users
+nest g controller users
+
+
 ### 7/ Ajout de l'authentification
